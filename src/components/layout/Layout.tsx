@@ -6,7 +6,7 @@ import "./layout.css";
 
 function Layout() {
   const [toggleSidebar, setTogglesidebar] = useState(false);
-
+  console.log("Layout: rendered");
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 970) {

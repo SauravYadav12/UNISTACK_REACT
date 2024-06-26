@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../services/authApi";
 import { toast } from "react-toastify";
 import Loader from "../../components/loader/Loader";
+import { useAuth } from "../../AuthGaurd/AuthContextProvider";
+import { Token } from "@mui/icons-material";
 
 function Copyright(props: any) {
   const navigate = useNavigate();
@@ -42,6 +44,8 @@ const defaultTheme = createTheme();
 export default function Login() {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
+  const {validateLogin} = useAuth();
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,6 +58,7 @@ export default function Login() {
         console.log(res);
         if (res.status === 200 && res.data?.token) {
           localStorage.setItem("token", res.data?.token);
+          validateLogin(res.data?.token);
           toast.success("Login Successfull");
           setLoading(false);
           navigate("/dashboard");
