@@ -17,6 +17,7 @@ import { signup } from "../../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FormControl } from "@mui/material";
+import { useAuth } from "../../AuthGaurd/AuthContextProvider";
 
 function Copyright(props: any) {
   return (
@@ -51,6 +52,13 @@ export default function SignUp() {
   const [checked, setChecked] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [values, setValues] = React.useState(initalValues);
+  const { isAuthenticated } = useAuth();
+  React.useEffect((): any => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+      return;
+    }
+  }, []);
 
   const addValue = (name: string, value: string) => {
     setValues(() => ({ ...values, [name]: value }));

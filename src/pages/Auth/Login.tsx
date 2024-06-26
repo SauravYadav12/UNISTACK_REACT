@@ -44,8 +44,14 @@ const defaultTheme = createTheme();
 export default function Login() {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
-  const {validateLogin} = useAuth();
+  const { validateLogin, isAuthenticated } = useAuth();
 
+  React.useEffect((): any => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+      return;
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,7 +61,6 @@ export default function Login() {
       if (data.get("email") && data.get("password")) {
         setLoading(true);
         const res: any = await login(data);
-        console.log(res);
         if (res.status === 200 && res.data?.token) {
           localStorage.setItem("token", res.data?.token);
           validateLogin(res.data?.token);

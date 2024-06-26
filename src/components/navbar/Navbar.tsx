@@ -23,7 +23,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function Navbar({ sidebar, toggleSideBar }: any) {
   const [width, setWidth] = React.useState(drawerWidth);
   const navigate = useNavigate();
-  const {validateLogout} = useAuth();
+  const { validateLogout } = useAuth();
   React.useEffect(() => {
     toggleSideBar ? setWidth(smallDrawerWidth) : setWidth(drawerWidth);
   }, [toggleSideBar]);
@@ -124,16 +124,11 @@ function Navbar({ sidebar, toggleSideBar }: any) {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography
-                      textAlign="center"
-                      onClick={() => {
-                        handleSetting(setting);
-                      }}
-                    >
-                      {setting}
-                    </Typography>
-                  </MenuItem>
+                  <div key={setting} onClick={() => handleSetting(setting)}>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  </div>
                 ))}
               </Menu>
             </Box>
