@@ -15,6 +15,7 @@ import { ListItemButton } from "@mui/material";
 import { drawerWidth, smallDrawerWidth } from "../constants";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthGaurd/AuthContextProvider";
 
 const pages = ["Attendance", "Leaves"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -22,6 +23,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function Navbar({ sidebar, toggleSideBar }: any) {
   const [width, setWidth] = React.useState(drawerWidth);
   const navigate = useNavigate();
+  const {validateLogout} = useAuth();
   React.useEffect(() => {
     toggleSideBar ? setWidth(smallDrawerWidth) : setWidth(drawerWidth);
   }, [toggleSideBar]);
@@ -36,7 +38,7 @@ function Navbar({ sidebar, toggleSideBar }: any) {
 
   const handleSetting = (setting: String) => {
     if (setting.toLowerCase() === "logout") {
-      localStorage.clear();
+      validateLogout();
       navigate(`/`);
     } else {
       navigate(`/${setting.toLowerCase()}`);

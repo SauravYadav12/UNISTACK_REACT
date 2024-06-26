@@ -1,9 +1,7 @@
 import "./App.css";
 import {
   BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
+  Routes, Route
 } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -15,27 +13,28 @@ import Teams from "./pages/Marketing/Teams/Teams";
 import Profile from "./pages/Marketing/Profile/Profile";
 import Reports from "./pages/Marketing/Reports/Reports";
 import SignUp from "./pages/Auth/Signup";
+import { AuthContextProvider } from "./AuthGaurd/AuthContextProvider";
+import ProtectedRoute from "./AuthGaurd/ProtectedRoute";
 
 function App() {
-  const token = localStorage.getItem("token");
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="requirements" element={<Requirements />} />
-          <Route path="interviews" element={<Interviews />} />
-          <Route path="consultants" element={<Consultants />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="profile" element={<Profile />} />
-          {/* Add other routes here */}
-        </Route>
-      </Routes>
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<ProtectedRoute> <Layout /> </ProtectedRoute>}>
+            <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="requirements" element={<ProtectedRoute><Requirements /></ProtectedRoute>} />
+            <Route path="interviews" element={<ProtectedRoute><Interviews /></ProtectedRoute>} />
+            <Route path="consultants" element={<ProtectedRoute><Consultants /></ProtectedRoute>} />
+            <Route path="teams" element={<ProtectedRoute><Teams /></ProtectedRoute>} />
+            <Route path="reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+            <Route path="profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthContextProvider>
   );
 }
 
