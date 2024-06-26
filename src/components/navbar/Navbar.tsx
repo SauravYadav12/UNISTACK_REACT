@@ -16,6 +16,7 @@ import { drawerWidth, smallDrawerWidth } from "../constants";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthGaurd/AuthContextProvider";
+import { iUser } from "../../Interfaces/iUser";
 
 const pages = ["Attendance", "Leaves"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -24,13 +25,13 @@ function Navbar({ sidebar, toggleSideBar }: any) {
   const [width, setWidth] = React.useState(drawerWidth);
   const navigate = useNavigate();
   const { validateLogout } = useAuth();
+  const user: iUser = JSON.parse(localStorage.getItem("user") || "{}");
+
   React.useEffect(() => {
     toggleSideBar ? setWidth(smallDrawerWidth) : setWidth(drawerWidth);
   }, [toggleSideBar]);
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleSidebar = () => {
     sidebar();
@@ -58,7 +59,7 @@ function Navbar({ sidebar, toggleSideBar }: any) {
       <AppBar
         sx={{
           width: { sm: `calc(100% - ${width}px)` },
-          ml: { sm: `${width}px` },
+          ml: { sm: `${width}px` }
         }}
         elevation={2}
         color="transparent"
@@ -82,19 +83,14 @@ function Navbar({ sidebar, toggleSideBar }: any) {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={() => {}}
-                  sx={{ my: 2, color: "black", display: "block" }}
-                  className="nav-heading"
-                >
+                <Button key={page} onClick={() => {}} sx={{ my: 2, color: "black", display: "block" }} className="nav-heading">
                   {page}
                 </Button>
               ))}
             </Box>
 
             <Box sx={{ flexGrow: 0, marginRight: "10px" }}>
-              <Typography textAlign="center">Welcome, Saurav</Typography>
+              <Typography textAlign="center">Welcome, {user.firstName} </Typography>
             </Box>
 
             {/* <Box sx={{ paddingTop: "8px" }}>
@@ -113,12 +109,12 @@ function Navbar({ sidebar, toggleSideBar }: any) {
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "right"
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "right"
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}

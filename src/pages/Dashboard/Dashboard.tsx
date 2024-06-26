@@ -62,19 +62,14 @@ const cardObject: CustomCard[] = [
 
 function Dashboard() {
   const token = localStorage.getItem("token");
+
   return (
     <>
       <Grid container spacing={2} sx={{ width: "100%" }}>
         {cardObject.map((card: any) => {
           return (
             <Grid key={card.title} item xs={12} sm={6} md={4} lg={2} xl={2}>
-              <BasicCard
-                color={card.color}
-                title={card.title}
-                count={card.count}
-                icon={card.icon}
-                titleColor={card.titleColor}
-              />
+              <BasicCard color={card.color} title={card.title} count={card.count} icon={card.icon} titleColor={card.titleColor} />
             </Grid>
           );
         })}

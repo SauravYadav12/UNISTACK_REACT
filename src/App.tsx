@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Layout from "./components/layout/Layout";
@@ -30,8 +25,7 @@ function App() {
             path="/"
             element={
               <ProtectedRoute>
-                {" "}
-                <Layout />{" "}
+                <Layout />
               </ProtectedRoute>
             }
           >
@@ -92,12 +86,7 @@ function App() {
               }
             />
           </Route>
-          {isAuthenticated ? (
-            <Route
-              path="dashboard"
-              element={<Navigate to="/dashboard" replace />}
-            />
-          ) : null}
+          {isAuthenticated ? <Route path="dashboard" element={<Navigate to="/dashboard" replace />} /> : null}
         </Routes>
       </Router>
     </AuthContextProvider>

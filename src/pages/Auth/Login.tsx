@@ -63,6 +63,7 @@ export default function Login() {
         const res: any = await login(data);
         if (res.status === 200 && res.data?.token) {
           localStorage.setItem("token", res.data?.token);
+          localStorage.setItem("user", JSON.stringify(res.data?.user));
           validateLogin(res.data?.token);
           toast.success("Login Successfull");
           setLoading(false);
