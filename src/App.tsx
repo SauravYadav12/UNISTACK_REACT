@@ -12,6 +12,7 @@ import Reports from "./pages/Marketing/Reports/Reports";
 import SignUp from "./pages/Auth/Signup";
 import { AuthContextProvider, useAuth } from "./AuthGaurd/AuthContextProvider";
 import ProtectedRoute from "./AuthGaurd/ProtectedRoute";
+import UserManagement from "./pages/UserManagement/UserManagement";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -82,6 +83,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="user-management"
+              element={
+                <ProtectedRoute>
+                  <UserManagement />
                 </ProtectedRoute>
               }
             />
