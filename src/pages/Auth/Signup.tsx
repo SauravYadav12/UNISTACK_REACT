@@ -16,7 +16,7 @@ import Loader from "../../components/loader/Loader";
 import { signup } from "../../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { FormControl } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useAuth } from "../../AuthGaurd/AuthContextProvider";
 
 function Copyright(props: any) {
@@ -45,6 +45,7 @@ const initalValues: any = {
   lastName: "",
   email: "",
   password: "",
+  gender:"",
 };
 
 export default function SignUp() {
@@ -67,21 +68,15 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      if (
-        data.get("firstName") &&
-        data.get("lastName") &&
-        data.get("email") &&
-        data.get("password")
-      ) {
-        const email = data.get("email");
-        const domain = email?.toString().split("@")[1];
+      const checkNull = Object.values(values).filter(i=> i === "")
+      if (!checkNull.length){
+        const domain = values.email?.toString().split("@")[1];
         if (domain?.toLowerCase() !== "unicodez.com") {
           return toast.error("Invalid Email");
         }
         if (checked) {
           setLoading(true);
-          const res: any = await signup(data);
+          const res: any = await signup(values);
           if (res.status === 200) {
             toast.success(res?.data?.message);
             setLoading(false);
@@ -149,6 +144,20 @@ export default function SignUp() {
                     autoComplete="family-name"
                     onChange={(e) => addValue("lastName", e.target.value)}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel required>Gender</InputLabel>
+                  <Select
+                    required
+                    value={values.gender}
+                    label="Gender"
+                    onChange={(e) => addValue("gender", e.target.value)}
+                  >
+                    <MenuItem value={"M"}>Male</MenuItem>
+                    <MenuItem value={"F"}>Female</MenuItem>
+                  </Select>
+                </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
