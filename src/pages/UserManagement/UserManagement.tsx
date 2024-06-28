@@ -12,45 +12,60 @@ interface CustomCard {
   titleColor: string;
 }
 const Columns = ["id", "firstName", "lastName", "email", "role", "active", "premium", "corpName", "createdAt", "updatedAt"];
-const cardObject: CustomCard[] = [
-  {
-    color: "#ECF2FF",
-    title: "Users",
-    count: 20163,
-    //   icon: <LeaderboardIcon fontSize="large" style={{ color: "#5D87FF" }} />,
-    titleColor: "#5D87FF"
-  },
-  {
-    color: "#FDF4E5",
-    title: "Active",
-    count: 2245,
-    //   icon: <InterpreterModeIcon fontSize="large" style={{ color: "#FFAE1F" }} />,
-    titleColor: "#FFAE1F"
-  },
-  {
-    color: "#E8F7FF",
-    title: "Inactive",
-    count: 1315,
-    //   icon: <Face6Icon fontSize="large" style={{ color: "#49BEFF" }} />,
-    titleColor: "#49BEFF"
-  },
-  {
-    color: "#FCEDE8",
-    title: "Premium   ",
-    count: 90,
-    //   icon: <SummarizeIcon fontSize="large" style={{ color: "#FA896B" }} />,
-    titleColor: "#FA896B"
-  }
-];
+
 function UserManagement() {
   const [users, setUsers] = useState([]);
+  const [activeUser, setActiveUser ] = useState(0);
+  const [inactiveUser, setInactiveUser] = useState(0);
   useEffect(() => {
     getUsersList();
   }, []);
+  const cardObject: CustomCard[] = [
+    {
+      color: "#ECF2FF",
+      title: "Users",
+      count: users.length,
+      //   icon: <LeaderboardIcon fontSize="large" style={{ color: "#5D87FF" }} />,
+      titleColor: "#5D87FF"
+    },
+    {
+      color: "#FDF4E5",
+      title: "Active",
+      count: activeUser,
+      //   icon: <InterpreterModeIcon fontSize="large" style={{ color: "#FFAE1F" }} />,
+      titleColor: "#FFAE1F"
+    },
+    {
+      color: "#E8F7FF",
+      title: "Inactive",
+      count: inactiveUser,
+      //   icon: <Face6Icon fontSize="large" style={{ color: "#49BEFF" }} />,
+      titleColor: "#49BEFF"
+    },
+    {
+      color: "#FCEDE8",
+      title: "Premium   ",
+      count: 90,
+      //   icon: <SummarizeIcon fontSize="large" style={{ color: "#FA896B" }} />,
+      titleColor: "#FA896B"
+    }
+  ];
+
+  const getActiveUserCount = (users: any) => {
+    const active = users.filter((user: any) => user.active === true )
+    setActiveUser(active.length);
+  }
+
+  const getInActiveUserCount = (users: any) => {
+    const inactive = users.filter((user: any) => user.active === false)
+    setInactiveUser(inactive.length)
+  }
 
   const getUsersList = async () => {
     const res = await usersList();
     setUsers(res.data?.users);
+    getActiveUserCount(res.data?.users)
+    getInActiveUserCount(res.data?.users)
   };
 
   const cardComponent = cardObject.map((card: any) => {
